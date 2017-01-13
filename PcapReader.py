@@ -58,3 +58,6 @@ class PcapReader:
         for pkt in pkt_by_ip:
             G.add_edge(pkt.src, pkt.dst)
         return G
+
+    def nodesQuantity(self):
+        return nx.number_of_nodes(self.graph)

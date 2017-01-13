@@ -22,5 +22,5 @@ class NetworkDrawer:
         
     @staticmethod
     def print_pkt_decoder(pkt):
-        t= tdecode(pkt)
-        print (t)
+        ta = tdecode(pkt)
+        print (ta)
