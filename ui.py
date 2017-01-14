@@ -31,6 +31,7 @@ def show_main_menu():
     print('[8] ' + 'Get a network useage table (Exported by ip from tshark)')
     print('[9] ' + 'Get retransmissions (PER) and expert info (PIPE from tshark command)')
     print('[10] ' + 'Get loading measurement Frames/Bytes per pcap interval (PIPE from tshark command)')
+    print('[11] ' + 'Get traffic from/to specific ip from specific time (PIPE from tshark command)')
     print('[0] ' + 'exit')
     print()
     selected = input('Your selection: ')
@@ -74,6 +75,11 @@ def handle_user_selection(selected, reader):
         if interval == "":
             interval = "0"
         output = NetworkDrawer.get_load_measure(reader.cap_path,interval)
+        print(output)
+    elif 11 == selected:
+        ip = input("Please enter ip(example: 255.255.255.255) to look up: ")
+        time = input("Please enter time(Must follow the format: 2016-12-25 09:15:43): ")
+        output = NetworkDrawer.get_traffic_for_ip_in_time(reader.cap_path, ip, time)
         print(output)
     elif 0 == selected: 
         sys.exit()

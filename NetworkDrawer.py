@@ -77,3 +77,14 @@ class NetworkDrawer:
         f.close()
         remove("temp.txt")
         return output
+
+    def get_traffic_for_ip_in_time(cap, ip, time):
+        """ tshark -r filename.cap -Y "(frame.time >= \"2016-12-25 09:15:43\") && ip.addr == 255.255.255.255" """
+        f = open("temp.txt", "w")
+        subprocess.call(["tshark", "-r", cap, "-Y", "(frame.time >= \"" + time + "\") && ip.addr == " + ip], stdout=f)
+        f.close()
+        f = open("temp.txt", "r")
+        output = f.read()
+        f.close()
+        remove("temp.txt")
+        return output
