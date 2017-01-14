@@ -28,7 +28,10 @@ def show_main_menu():
     print('[5] ' + 'Open in wireshark')
     print('[6] ' + 'Show specific packet information (from tshark interface)')
     print('[7] ' + 'Export specific packet to pdf (Scapy feature)')
-    print('[9] ' + 'exit')
+    print('[8] ' + 'Get a network useage table (Exported by ip from tshark)')
+    print('[9] ' + 'Get retransmissions (PER) and expert info (PIPE from tshark command)')
+    print('[10] ' + 'Get loading measurement Frames/Bytes per pcap interval (PIPE from tshark command)')
+    print('[0] ' + 'exit')
     print()
     selected = input('Your selection: ')
     return int(selected)
@@ -60,7 +63,19 @@ def handle_user_selection(selected, reader):
         pkt_id = input('Select packet id: ')
         filename = input('Select the exported file\'s name: ')
         NetworkDrawer.pdfdump(reader.pcap[int(pkt_id)], str(filename))
-    elif 9 == selected: 
+    elif 8 == selected:
+        output = NetworkDrawer.get_network_useage_table(reader.cap_path)
+        print(output)
+    elif 9 == selected:
+        output = NetworkDrawer.get_expert_info(reader.cap_path)
+        print(output)
+    elif 10 == selected:
+        interval = input("Insert the Interval (default full packet): ")
+        if interval == "":
+            interval = "0"
+        output = NetworkDrawer.get_load_measure(reader.cap_path,interval)
+        print(output)
+    elif 0 == selected: 
         sys.exit()
     else:
         print('Invalid options! ')

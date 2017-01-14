@@ -44,3 +44,36 @@ class NetworkDrawer:
         wrpcap(fname, pktlist)
         subprocess.call([conf.prog.wireshark, "-r", fname])
 
+    @staticmethod
+    def get_network_useage_table(cap):
+        """Run tshark to decode and display the packet. If no args defined uses -V"""
+        f = open("temp.txt", "w")
+        subprocess.call(["tshark", "-nr", cap, "-z", "conv,ip", "-q"], stdout=f)
+        f.close()
+        f = open("temp.txt", "r")
+        output = f.read()
+        f.close()
+        remove("temp.txt")
+        return output
+
+    def get_expert_info(cap):
+        """ returns a retransmission rate and other analysis information """
+        f = open("temp.txt", "w")
+        subprocess.call(["tshark", "-nr", cap, "-z", "expert", "-q"], stdout=f)
+        f.close()
+        f = open("temp.txt", "r")
+        output = f.read()
+        f.close()
+        remove("temp.txt")
+        return output
+
+    def get_load_measure(cap, Interval):
+        """ returns a loading rate (interval / frame / bytes) """
+        f = open("temp.txt", "w")
+        subprocess.call(["tshark", "-o", "tcp.desegment_tcp_streams:FALSE" ,"-n", "-q" , "-r", cap, "-z", "io,stat," + Interval + ",,FRAMES,BYTES"], stdout=f)
+        f.close()
+        f = open("temp.txt", "r")
+        output = f.read()
+        f.close()
+        remove("temp.txt")
+        return output
