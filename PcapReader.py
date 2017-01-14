@@ -1,4 +1,4 @@
-from scapy.all import *
+from scapy.all import rdpcap, Dot11
 import networkx as nx
 from NetworkDrawer import NetworkDrawer
 
@@ -59,5 +59,11 @@ class PcapReader:
             G.add_edge(pkt.src, pkt.dst)
         return G
 
-    def nodesQuantity(self):
+    # nodesQuantity
+    # returns the number of nodes in the network's graph
+    def nodes_quantity(self):
         return nx.number_of_nodes(self.graph)
+
+    def get_ip_list(self):
+        """ returns a list of the ips in the graph """
+        return self.graph.nodes()
